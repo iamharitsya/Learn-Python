@@ -51,29 +51,43 @@ while bank > 0:
     print(f"\n\nDealer's first card: {cards[dealer_set[0]]}")
     
     
-    
-    while gambler < 21: # User bet
+    count = 2
+    while count is not 0: # User first 2 cards
         
         gen_random = random.randint(1,13)
         gambler_set.append(gen_random)
         bet_value = shuffle(gambler, gen_random)
         gambler += bet_value
+        count -= 1
         
-        print(f"Your card is: {cards[gen_random]} \n\nCurrent set: {gambler_set} \nSet value: {gambler}")
+    print(f"Your cards: {cards[gambler_set[0]]} {cards[gambler_set[1]]} \n\nCurrent set: {gambler_set} \nSet value: {gambler}")
         
-        if gambler > 21:
-            bank -= user_bet
-            print(f"Your set exceeds 21. 'You lose'\n\nDealer's total is ₹{dealer}. \nDealer's cards: {dealer_set}")
-            print(f"Account Balance ₹{bank}.\n\n")
-            break
+    while gambler < 21: # User draws card
         
         wish = input("Do you want to draw another card? [y/n]: ").lower()
             
         if wish not in ['y', 'n']:
             print("Invalid input. Please enter 'y' or 'n'.")
             continue
+        
+        if wish == 'y':
+            
+            gen_random = random.randint(1,13)
+            gambler_set.append(gen_random)
+            bet_value = shuffle(gambler, gen_random)
+            gambler += bet_value
+            
+            print(f"New card: {cards[gen_random]}\nCurrent set: {gambler_set} \nSet value: {gambler}") 
+            
+                  
+        if gambler > 21:
+            bank -= user_bet
+            print(f"\nYour set exceeds 21. 'You lose'\n\nDealer's total is ₹{dealer}. \nDealer's cards: {dealer_set}")
+            print(f"Account Balance ₹{bank}.\n\n")
+            break
+        
         if wish == 'n':
-            print(f"Your total is ₹{gambler}. Dealer's total is ₹{dealer}. \nDealer's cards: {dealer_set}")
+            print(f"\nYour total is ₹{gambler}. Dealer's total is ₹{dealer}. \nDealer's cards: {dealer_set}")
             if dealer == gambler:
                 print("Draw.")
                 print(f"Account Balance ₹{bank}.\n\n")
@@ -90,13 +104,20 @@ while bank > 0:
             break
 
 
+    while True:
+        
+        user_choice = input("Do you want to play again? [y/n]: ").lower()
+        
+        if user_choice not in ['y', 'n']:
+            print("Invalid input. Please enter ['y' or 'n'].")
+            continue
+        
+        if user_choice != 'y':
+            print(f"Thanks for playing. Your balance is ₹{bank}.")
+        
+        break
 
-    user_choice = input("Do you want to play again? [y/n]: ").lower()
-    if user_choice not in ['y', 'n']:
-        print("Invalid input. Please enter 'y' or 'n'.")
-        continue
-    if user_choice!= 'y':
-        print("Thanks for playing.")
+    if user_choice != 'y':
         break
     
     if bank <= 0:
